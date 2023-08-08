@@ -2,10 +2,10 @@ import React from 'react'
 
 type Props = {}
 
-const landing = (props: Props) => {
+const MDashboard = (props: Props) => {
   return (
     <div>landing</div>
   )
 }
 
-export default landing
+export default MDashboard;
