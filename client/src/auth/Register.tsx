@@ -1,16 +1,28 @@
 // src/Register.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('manufacturer'); // Default to manufacturer
 
+  const navigate = useNavigate();
+
   const handleRegister = async () => {
     try {
-      const response = await axios.post('/api/register', { username, password, userType });
+      const response = await axios.post('http://localhost:8000/api/auth/register', { username, password, userType });
       console.log(response.data);
+      if(userType === "manufacturer"){
+         alert("Manufacturer Registered successfully!")
+         navigate("/manufacturer")
+        }else if(userType === 'transporter'){
+          alert("Transporter Registered successfully!")
+          navigate("/transporter")
+        }
+      
+        //navigate to the
     } catch (error) {
       console.error(error);
     }

@@ -1,6 +1,7 @@
 // routes/auth.js
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 
 const Manufacturer = require('../models/Manufacturer');
 const Transporter = require('../models/Transporter');
@@ -9,18 +10,21 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // First, search for the user in the Manufacturer schema
-    const manufacturerUser = await Manufacturer.findOne({ username, password }).lean();
+    let user = await Manufacturer.findOne({ username }).lean().exec();
+    let userType = 'manufacturer';
 
-    if (manufacturerUser) {
-      return res.status(200).json({ userType: 'manufacturer', user: manufacturerUser });
+    if (!user) {
+      user = await Transporter.findOne({ username }).lean().exec();
+      userType = 'transporter';
     }
 
-    // If not found in Manufacturer schema, search in Transporter schema
-    const transporterUser = await Transporter.findOne({ username, password }).lean();
+    if (user) {
+      // Compare hashed password
+      const passwordMatch = await bcrypt.compare(password, user.password);
 
-    if (transporterUser) {
-      return res.status(200).json({ userType: 'transporter', user: transporterUser });
+      if (passwordMatch) {
+        return res.status(200).json({ userType, user , message: "Successfully loggedin"});
+      }
     }
 
     return res.status(401).json({ message: 'Invalid credentials' });

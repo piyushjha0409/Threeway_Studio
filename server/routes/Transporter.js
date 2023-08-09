@@ -9,8 +9,8 @@ router.get('/orders', async (req, res) => {
   // Implementation to get transporter's assigned orders
 });
 
-router.post('/reply', async (req, res) => {
-  // Implementation for sending a reply to manufacturer
-});
+// router.post('/reply', async (req, res) => {
+//   // Implementation for sending a reply to manufacturer
+// });
 
 module.exports = router;    

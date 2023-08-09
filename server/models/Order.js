@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   quantity: String,
   pickupAddress: String,
   transporter: { type: mongoose.Schema.Types.ObjectId, ref: 'Transporter' },
-  price: Number,
+  price: Number,  
 });
 
 module.exports = mongoose.model('Order', orderSchema);

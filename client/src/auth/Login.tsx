@@ -10,14 +10,16 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('/api/login', { username, password });
+      const response = await axios.post('http://localhost:8000/api/auth/login', { username, password });
       
       if (response.status === 200) {
         const userType = response.data.userType;
         
         if (userType === 'manufacturer') {
+          alert("Successfully Loggedin")
           navigate('/manufacturer'); // Redirect to manufacturer dashboard
         } else if (userType === 'transporter') {
+          alert("Successfully Loggedin")
           navigate('/transporter'); // Redirect to transporter dashboard
         }
       }

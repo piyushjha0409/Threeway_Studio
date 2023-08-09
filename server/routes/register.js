@@ -12,22 +12,24 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     
     if (userType === "manufacturer"){
-      const newUser = new Manufacturer({
+      const newManufacturer = new Manufacturer({
         username,
         password: hashedPassword,
         userType,
       });
-    }else{
-      const newUser = new Transporter({
+      await newManufacturer.save();
+      res.status(201).json({ message: 'Manufacturer registered successfully.' });
+    }else if(userType === "transporter"){
+      const newTransporter = new Transporter({
         username,
         password: hashedPassword,
         userType,
       });
+
+      await newTransporter.save();
+      res.status(201).json({ message: 'Transporter registered successfully.' });
     }
    
-
-    await newUser.save();
-    res.status(201).json({ message: 'User registered successfully.' });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred during registration.' });
   }
