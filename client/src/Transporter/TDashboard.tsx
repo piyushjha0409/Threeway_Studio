@@ -4,7 +4,7 @@ type Props = {}
 
 const TDashboard = (props: Props) => {
   return (
-    <div>landing</div>
+    <div>This is the dashboard for Transporters</div>
   )
 }
 

@@ -1,28 +1,32 @@
-// routes/login.js
+// routes/auth.js
 const express = require('express');
-const bcrypt = require('bcrypt');
-const User = require('../models/User');
-
 const router = express.Router();
 
+const Manufacturer = require('../models/Manufacturer');
+const Transporter = require('../models/Transporter');
+
 router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
-    
-    if (!user) {
-      return res.status(404).json({ error: 'User not found.' });
+    // First, search for the user in the Manufacturer schema
+    const manufacturerUser = await Manufacturer.findOne({ username, password }).lean();
+
+    if (manufacturerUser) {
+      return res.status(200).json({ userType: 'manufacturer', user: manufacturerUser });
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    // If not found in Manufacturer schema, search in Transporter schema
+    const transporterUser = await Transporter.findOne({ username, password }).lean();
 
-    if (passwordMatch) {
-      return res.status(200).json({ message: 'Login successful.' });
-    } else {
-      return res.status(401).json({ error: 'Incorrect password.' });
+    if (transporterUser) {
+      return res.status(200).json({ userType: 'transporter', user: transporterUser });
     }
+
+    return res.status(401).json({ message: 'Invalid credentials' });
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred during login.' });
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 

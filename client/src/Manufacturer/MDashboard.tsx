@@ -4,7 +4,7 @@ type Props = {}
 
 const MDashboard = (props: Props) => {
   return (
-    <div>landing</div>
+    <div>This is the dashboard for manufacturer's</div>
   )
 }
 
