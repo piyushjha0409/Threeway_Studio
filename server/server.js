@@ -17,16 +17,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect("mongodb+srv://peeyush0409:Dard0409*@cluster0.88ku4pe.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
 });
 
 // Include your routes here
-app.use('/api/register', require('./routes/Register'));
-app.use('/api/login', require('./routes/Login'));
+app.use('/api/register', require('./routes/register'));
+app.use('/api/login', require('./routes/login'));
 app.use('/api/manufacturer', require('./routes/Manufacturer'));
 app.use('/api/transporter', require('./routes/Transporter'));
-app.use('/api/order', require('./routes/order'));
+app.use('/api/order', require('./routes/Order'));
 
 io.on('connection', (socket) => {
   // Socket.io implementation for real-time messaging
