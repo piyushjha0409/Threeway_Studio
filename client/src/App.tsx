@@ -18,7 +18,6 @@ function App() {
       <Route path='/manufacturer' element={< MDashboard/>} />
       <Route path='/transporter' element={<TDashboard />} />
     </Routes>
-
     </div>
     </Router>
   );

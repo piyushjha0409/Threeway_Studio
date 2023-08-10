@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema({
   to: String,
   quantity: String,
   pickupAddress: String,
-  transporter: { type: mongoose.Schema.Types.ObjectId, ref: 'Transporter' },
+  transporter: { type: String, ref: 'Transporter' },
   price: Number,  
 });
 

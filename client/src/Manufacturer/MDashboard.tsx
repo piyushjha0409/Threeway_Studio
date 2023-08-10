@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./MDashboard.css"
 import axios from 'axios';
 import {v4 as uuidv4} from "uuid" 
-import ManufactureChat from "../chat/ManufactureChat"
+// import ManufactureChat from "../chat/ManufactureChat"
 
 const MDashboard = () => {
   const [orderDetails, setOrderDetails] = useState({
@@ -116,7 +116,7 @@ const MDashboard = () => {
         </div>
         <button type="submit">Send Push</button>
       </form>
-      <ManufactureChat />
+      {/* <ManufactureChat /> */}
     </div>
   );
 };

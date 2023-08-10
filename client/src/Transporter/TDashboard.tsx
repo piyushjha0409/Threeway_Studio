@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import io from 'socket.io-client'; // Import Socket.io client
-import TransportChat from '../chat/TransportChat';
+// import TransportChat from '../chat/TransportChat';
 
 const Landing = () => {
-  const [orderList, setOrderList] = useState([]);
+  const [orderList, setOrderList] = useState<String[]>([]);
   const [selectedOrderId, setSelectedOrderId] = useState('');
   const [price, setPrice] = useState('');
-  const [socket, setSocket] = useState(null);
+
+ 
+  const fetchAllOrders = () => {
+    axios.get("http://localhost:8000/api/transporter/orders").then((response)=> {
+       const order_id = response.data.map((each: any)=> each._id);
+        console.log(order_id)
+        setOrderList(order_id);
+        // console.log(orderList)
+    })
+  }
 
   useEffect(() => {
-  
-    const fetchAllOrders = () => {
-      axios.get("https://localhost:8000/api/transporters/get-Orders")
-      
-    }
-  
+    fetchAllOrders(); 
   }, []);
 
   const handlePriceChange = (e: any) => {
-    setPrice(e.target.value);
+    setPrice(e.target.value); 
   };
 
   return (
@@ -33,8 +36,8 @@ const Landing = () => {
           onChange={(e) => setSelectedOrderId(e.target.value)}
         >
           <option value="">Select Order ID</option>
-          {orderList.map((orderId) => (
-            <option key={orderId} value={orderId}>
+          {orderList.map((orderId, index) => (
+            <option key={index}>
               {orderId}
             </option>
           ))}
@@ -49,7 +52,7 @@ const Landing = () => {
           onChange={handlePriceChange}
         />
       </div>
-      <TransportChat />
+      {/* <TransportChat /> */}
     </div>
   );
 };
